@@ -6,17 +6,22 @@ const YAML = require('yamljs');
 const swaggerUi = require('swagger-ui-express');
 
 const templateRoot = path.join(__dirname, '/templates');
+const swaggerDocument = YAML.load('./swagger.yml');
 
 // add some security-related headers to the response
 app.use(helmet());
 
-const swaggerDocument = YAML.load('./swagger.yml');
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/', swaggerUi.serve);
+app.get('*', (req, res) => {
+    swaggerUi.setup(swaggerDocument);
+});
 
+/*
 app.get('*', (req, res) => {
     res.set('Content-Type', 'text/html');
 
     res.sendFile(path.join(__dirname+'/index.html'));    
 })
+*/
 
 module.exports = app
