@@ -12,7 +12,7 @@ const templateRoot = path.join(__dirname, '/templates');
 app.use(helmet());
 app.get('*', (req, res) => {
     res.set('Content-Type', 'text/html');
-    let password = process.env.DATABASE_PASSWORD;
+    let password = process.env.DATABASE_PASSWORD; 
 
     res.sendFile(path.join(__dirname+'/index.html'));
     //res.send(200, `
