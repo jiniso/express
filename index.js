@@ -10,18 +10,10 @@ const swaggerDocument = YAML.load('./swagger.yml');
 
 // add some security-related headers to the response
 app.use(helmet());
-
-app.use('/', swaggerUi.serve);
-app.get('*', (req, res) => {
-    swaggerUi.setup(swaggerDocument);
-});
-
-/*
 app.get('*', (req, res) => {
     res.set('Content-Type', 'text/html');
 
     res.sendFile(path.join(__dirname+'/index.html'));    
 })
-*/
 
 module.exports = app
