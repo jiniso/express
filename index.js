@@ -2,11 +2,11 @@ const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
 const app = express();
-const YAML = require('yamljs');
-const swaggerUi = require('swagger-ui-express');
+//const YAML = require('yamljs');
+//const swaggerUi = require('swagger-ui-express');
 
 const templateRoot = path.join(__dirname, '/templates');
-const swaggerDocument = YAML.load('./swagger.yml');
+//const swaggerDocument = YAML.load('./swagger.yml');
 
 // add some security-related headers to the response
 app.use(helmet());
