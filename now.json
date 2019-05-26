@@ -3,4 +3,4 @@
   "name":"express-demo",
   "builds":[{"src":"**/*.js","use":"@now/node"}], 
   "alias": "www.glyph.io"
-}
+} 
