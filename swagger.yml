@@ -1,0 +1,251 @@
+swagger: '2.0'
+info:
+  version: 1.0.2
+  title: Sample API Using Express, Mongo and Docker
+  description: <a href="http://localhost:8002">Sample Angular UI</a>
+security:
+  - key: []
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+  - http
+x-schemes:
+  - unix
+paths:  
+  /api/setup: 
+    post:
+      tags: ["demo setup"]
+      summary: Clears the notes collection and loads sample data.
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/note"
+        '400':
+          description: Validation Failed
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/validationResultCollection"
+        '500':
+          description: Server Error   
+
+  /api/notes:
+    post:
+      tags: ["notes"]
+      summary: Creates one or more notes.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: notes
+          description: one or more notes to create
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/note"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/note"
+        '400':
+          description: Validation Failed
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/validationResultCollection"
+        '500':
+          description: Server Error    
+    get:
+      tags: ["notes"]
+      summary: "Return all notes with optional filtering on title and body"
+      operationId: find
+      parameters:
+        - name: title
+          in: query
+          type: string
+          description: Wildcard search against the title     
+          allowEmptyValue: true
+        - name: body
+          in: query
+          type: string
+          description: Wildcard search against the body
+          allowEmptyValue: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/note"                
+        '500':
+          description: Server Error                  
+    delete:
+      tags: ["notes"]
+      summary: "Removes a collection of notes based on the provided array of ids"
+      operationId: delete_multiple
+      parameters:
+        - name: note ids
+          in: body
+          schema:
+            type: array
+            items:
+              type: string  
+          allowEmptyValue: false
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request       
+        '500':
+          description: Server Error     
+  /api/notes/{id}:
+    get:
+      tags: ["notes"]
+      summary: "Return a single note associated with the given id"
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          type: string
+          allowEmptyValue: false      
+      responses:
+        '200':
+          $ref: "#/definitions/note"
+        '404':
+          description: Note not found            
+        '500':
+          description: Server Error                 
+    put:
+      tags: ["notes"]
+      summary: "Updates a single note associated with the given id"
+      operationId: put
+      parameters:
+        - name: id
+          in: path
+          type: string
+          allowEmptyValue: false
+        - name: note
+          in: body
+          schema:
+            $ref: "#/definitions/note"    
+      responses:
+        '200':
+          description: Updated Note
+          schema:
+            $ref: "#/definitions/note"
+        '400':
+          description: Validation Failed
+          schema:
+              $ref: "#/definitions/validationError"            
+        '500':
+          description: Server Error 
+    patch:
+      tags: ["notes"]
+      summary: "Updates the provided properties associated with single note"
+      operationId: patch
+      parameters:
+        - name: id
+          in: path
+          type: string
+          allowEmptyValue: false
+        - name: note
+          in: body
+          schema:
+            $ref: "#/definitions/note"     
+      responses:
+        '200':
+          description: Updated Note
+          schema:
+            $ref: "#/definitions/note"
+        '400':
+          description: Validation Failed
+          schema:
+              $ref: "#/definitions/validationError"                
+        '500':
+          description: Server Error                 
+    delete:
+      tags: ["notes"]
+      summary: "Removes a single note associated with the given id"
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          type: string
+          allowEmptyValue: false      
+      responses:
+        '204':
+          description: Item was removed
+        '500':
+          description: Server Error          
+definitions:
+  note:
+    type: object
+    required:
+      - title
+      - body
+    properties:
+      _id:
+        type: integer
+        format: string
+        readOnly: true
+        description: "Primary Key"
+      createdOn:
+        type: string
+        format: string
+        readOnly: true
+        description: "Date"
+      modifiedOn:
+        type: string
+        format: string
+        readOnly: true
+        description: "Date"        
+      title:
+        type: string
+        minLength: 1
+        description: "Note Title"
+      body:
+        type: string
+        minLength: 1
+        description: "Note Description"  
+  validationError: 
+    type: object
+    required:
+      - valid
+      - errors
+    properties:
+      index:
+        type: integer
+        description: "Index of item relative to provided input"
+      valid:
+        type: boolean
+        default: false
+        description: "Specifies if the item is valid"
+      errors:
+        type: array
+        items:
+          type: string
+          description: "Validation Error Message"        
+  validationResultCollection:
+    type: object
+    required:
+      - valid
+      - errors
+    properties:
+      valid:
+        type: boolean
+        default: false
+        description: "Specifies if the provided collection contains validation errors"
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/validationError"
