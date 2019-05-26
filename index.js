@@ -10,8 +10,8 @@ const templateRoot = path.join(__dirname, '/templates');
 // add some security-related headers to the response
 app.use(helmet());
 
-//const swaggerDocument = YAML.load('./swagger.yml');
-//app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerDocument = YAML.load('./swagger.yml');
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('*', (req, res) => {
     res.set('Content-Type', 'text/html');
