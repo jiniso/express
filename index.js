@@ -13,7 +13,7 @@ app.use(helmet());
 //const swaggerDocument = YAML.load('./swagger.yml');
 //app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.set('Content-Type', 'text/html');
 
     res.sendFile(path.join(__dirname+'/index.html'));    
