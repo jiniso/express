@@ -2,5 +2,9 @@
   "version":2,
   "name":"express-demo",
   "builds":[{"src":"**/*.js","use":"@now/node"}], 
-  "alias": ["glyph.io", "www.glyph.io"]
+  "alias": ["glyph.io", "www.glyph.io"],
+  "env": {
+    "DATABASE_NAME": "test",
+    "DATABASE_CONNECTION_STRING": "super secret"
+  }
 } 
