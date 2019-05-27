@@ -8,10 +8,12 @@ const templateRoot = path.join(__dirname, '/templates');
 app.use(helmet());
 app.get('*', (req, res) => { 
     res.set('Content-Type', 'text/html');
-    //let password = process.env.DATABASE_PASSWORD; 
-    //res.send(200, `<h1>Secret: ${password}</h1>`); 
+    let databaseConn = process.env.DATABASE_CONNECTION_STRING; 
+    let password = process.env.DATABASE_PASSWORD; 
+    
+    res.send(200, `<h1>Secret: ${databaseConn} | ${password}</h1>`); 
 
-    res.sendFile(path.join(__dirname+'/index.html')); 
+    //res.sendFile(path.join(__dirname+'/index.html')); 
 })
 
 module.exports = app
