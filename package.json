@@ -10,6 +10,7 @@
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "prod": "now -f -e DATABASE_PASSWORD=test --target production"
   }
 }
