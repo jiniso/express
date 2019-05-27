@@ -2,5 +2,8 @@
   "version":2,
   "name":"express-demo",
   "builds":[{"src":"**/*.js","use":"@now/node"}], 
-  "alias": ["glyph.io", "www.glyph.io"] 
+  "alias": ["glyph.io", "www.glyph.io"],
+  "routes": [
+    { "src": "/(.*)", "status": 301, "headers": { "Location": "https://express-demo.cloudfactory.now.sh/$1" }}
+  ]
 } 
