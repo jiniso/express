@@ -1,6 +1,6 @@
 {
   "version":2,
   "name":"express-demo",
-  "builds":[{"src":"**/*.js","use":"@now/node"}],
-  "alias": "glyph.io"
-}
+  "builds":[{"src":"**/*.js","use":"@now/node"}], 
+  "alias": ["glyph.io", "www.glyph.io"]
+} 
